@@ -1,0 +1,17 @@
+Malware = your mal
+Population = all
+Pop Size = [1000, 100]
+Ransom Value(s) = [250, 1000]
+Ransom Type = discriminatory
+Discrimination Type = pop_type
+Cost = [10000]
+Revenue = [64647.00472949333, 23589.689505401064]
+Total Profit = 78236.69
+Size of paying pop (proportional) = [0.25858801891797334, 0.23589689505401065]
+Optimality = [0.80220544]
+Threat-level = [53.53932884]
+Optimal Revenue = [74103.74718641514, 33423.25770214233]
+Optimal Profit = 97527.00
+Size of optimal paying pop (proportional) = [0.1670710301466042, 0.12743440861279876]
+Optimal Ransom(s) = [443.54635942203373, 2622.781246130842]
+Threat-level of Optimal Ransom = [75.60535291]

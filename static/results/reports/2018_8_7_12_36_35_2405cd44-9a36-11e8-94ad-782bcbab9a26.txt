@@ -1,0 +1,17 @@
+Malware = your mal
+Population = all
+Pop Size = 1100
+Ransom Value(s) = [500]
+Ransom Type = fixed
+Discrimination Type = no_choice
+Cost = [0]
+Revenue = 94224.6303878
+Total Profit = 94224.63
+Size of paying pop (proportional) = 0.171317509796
+Optimality = [ 0.99553489]
+Threat-level = [ 70.98391032]
+Optimal Revenue = 94647.2410271
+Optimal Profit = 94647.24
+Size of optimal paying pop (proportional) = 0.156232661756
+Optimal Ransom(s) = 550.73596917
+Threat-level of Optimal Ransom = [ 72.60022785]

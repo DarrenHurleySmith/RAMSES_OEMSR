@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link rel="shortcut icon" href="{{url_for('static', filename='images/logos/Uok_Logo.png') }}"/>
+    <title>RAMSES Economic Model of Ransomware</title>    
+    <link rel="stylesheet" type="text/css" href= "{{ url_for('static',filename='css/bootstrap.min.css') }}"/>
+    <link rel="stylesheet" type="text/css" href= "{{ url_for('static',filename='css/bootstrap-theme.min.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/bootstrap-toggle.min.css') }}" />
+    <link rel="stylesheet" type="text/css" href= "{{ url_for('static',filename='css/site.css') }}"/>
+    <script type="text/javascript" src="../static/js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="../static/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../static/js/bootstrap-toggle.min.js"></script>
+	<script type="text/javascript" src="../static/js/knockout-3.4.2.js"></script>
+    <style>
+        .builtString{
+            margin-bottom: 0;
+        }
+
+        .input-error {
+            background-color: #af3a4e;
+        }
+
+        .spinner {
+            border: 4px solid #8cc4e9; /* Light grey */
+            border-top: 3px solid #173679; /* Blue */
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            animation: spin 2s linear infinite;
+            display: inline-block;
+            vertical-align: middle;
+            margin-left:10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+		
+		.constrained-img {
+           max-width: 30em;
+           max-height: 15em;
+        }
+    </style>
+</head>
+<body>
+    <form>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-xs">
+							<img class="constrained-img" style="width:100%; height:100%;" src="../static/images/logos/RAMSES_Logo.png"/>
+                        </div>
+						<!-- <div class="col-md-xs">
+                            <img style="width:12%; height:12%;" src="../static/images/logos/Uok_Logo.png" />
+							<img style="width:25%; height:25%;" src="../static/images/logos/H2020_Logo.png" />
+                        </div> -->
+                        <div class="col-md-xs">  							
+                            <h2>
+                                Optimal Economic Model System for Ransomware               
+                            </h2>
+							
+                            <p>
+                                O.E.M.S.R  ver 1.0 
+							</p>
+							<img class="constrained-img" style="width:12%; height:12%;" src="../static/images/logos/Uok_Logo.png" />
+							<img class="constrained-img" style="width:28%; height:28%;" src="../static/images/logos/H2020_Logo.png" />
+							<p>
+								Developed at the University of Kent for the H2020 funded RAMSES project
+                            </p>    							
+							<p>
+								Grant Agreement No. 700326
+							</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="checkbox">
+                                <label for="file-upload-enabled">
+                                    <input id="file-upload-enabled" name="file-upload-enabled" value="true" type="checkbox" data-toggle="toggle" data-on="User Defined Pop" data-off="Default Population" data-size="medium" data-width="200" />                                                                 
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="file-input-container" data-bind="visible: hideFileUpload">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label>Input .csv files of WTP values with length > 50 entries <br/> Refresh page to clear file inputs</label>
+                            </div>
+                        </div>
+
+                       <!--  <div class="row">
+                            <div class="col-md-12">
+                                <i>If no appropriate files are input, default pops will be generated</i> 
+                            </div>
+                        </div>   -->
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div id="upload-1-container" class="form-group">
+                                    <label class="btn btn-primary" for="upload-1" style="width:100%;">
+                                        Click to upload your Individuals.CSV
+                                        <input style="display:none;" id="upload-1" class="form-control" name="usr_def_ind" type="file" required="required" placeholder="Enter the file name for your Individuals.CSV here." />		
+                                    </label> 
+                                </div>
+                            </div>
+                        </div>
+    
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div id="upload-2-container" class="form-group">
+                                    <label class="btn btn-primary" for="upload-2" style="width:100%;">
+                                        Click to upload your Business.CSV
+                                        <input style="display:none;" id="upload-2" class="form-control" name="usr_def_biz" type="file" placeholder="Enter the file name for your Business.CSV here."  />                                                                                         
+                                    </label>  
+                                </div>
+                            </div>
+                        </div>              
+                        <hr />                 
+                    </div>
+
+                    <div id="target-population-container">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label>Select Target Population</label>
+    
+                                <div class="radio">
+                                    <label for="radio-1">                       
+                                        <input id="radio-1" name="population" type="radio" value="all" data-bind="checked: selectedTargetPopulation" />
+                                        All
+                                    </label>
+                                </div>
+    
+                                <div class="radio">
+                                    <label for="radio-2">
+                                        <input id="radio-2" name="population" type="radio" value="target_ind" data-bind="checked: selectedTargetPopulation" />                                      
+                                        Individuals
+                                    </label>
+                                </div>
+    
+                                <div class="radio">
+                                    <label for="radio-3">
+                                        <input id="radio-3" name="population" type="radio" value="target_biz" data-bind="checked: selectedTargetPopulation" />                                                                 
+                                        Businesses
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <hr />
+                    </div>
+
+                    <div id="ransom-type-container">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label>Select Type of Ransom</label>
+
+                                <div class="radio">
+                                    <label for="radio-4">
+                                        <input id="radio-4" class="typeRadio" name="ransom_type" type="radio" value="fixed" data-bind="checked: selectedRansomType" />
+                                        Fixed Ransom
+                                    </label>
+                                </div>
+
+                                <div class="radio">
+                                    <label for="radio-5">
+                                        <input id="radio-5" class="typeRadio" name="ransom_type" type="radio" value="discriminatory" data-bind="checked: selectedRansomType" />                                      
+                                        Price Discrimination
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <hr />
+                    </div>
+
+                    <div id="price-discrimination-container" data-bind="visible: hidePriceDiscrimination">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label>Select Price Discrimination Type</label>
+
+                                <div class="radio">
+                                    <label for="radio-6">
+                                        <input id="radio-6" class="priceRadio" name="discrim_method" type="radio" value="no_choice" disabled="disabled" data-bind="enable: hidePriceDiscrimination, checked: selectedPriceType" />
+                                        None
+                                    </label>
+                                </div>
+
+                                <div class="radio">
+                                    <label for="radio-7" data-bind="visible: hidePopType, enable: disablePopType">
+                                        <input id="radio-7" class="priceRadio" name="discrim_method" type="radio" value="pop_type" disabled="disabled" data-bind="enable: hidePriceDiscrimination, checked: selectedPriceType" />                                      
+                                        Population Type
+                                    </label>
+                                </div>
+
+                                <div class="radio">
+                                    <label for="radio-8">
+                                        <input id="radio-8" class="priceRadio" name="discrim_method" type="radio" value="price_bracket" disabled="disabled" data-bind="enable: hidePriceDiscrimination, checked: selectedPriceType" />                                                                 
+                                        Price Brackets
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- <div class="row">
+                            <div class="col-md-12">
+                                <i>
+                                    If Ransom = Fixed these options have no effect
+                                </i>
+                            </div>
+                        </div> -->
+                        <hr /> 
+                    </div>           
+
+                    <div class="text-input-container">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="text-input-1">Ransom values</label>
+                                    <input id="text-input-1" class="form-control" required="required" name="ransom" type="text" value="" placeholder="Input comma-separated ransom list e.g. 100,200,1000"  maxlength="500" data-bind="value: ransomValues" />
+                                </div> 
+    
+                                <div class="form-group" data-bind="visible: hidePriceDiscrimination, visible: hideBrackets">
+                                    <label for="text-input-2" >Price Brackets</label>
+                                    <input id="text-input-2" class="form-control" name="price_brackets" type="text" value="" placeholder="Input comma-separated brackets list e.g. 50,200,500"  maxlength="500" data-bind="value: priceBrackets" />               
+                                </div>
+    
+                                <div class="form-group">
+                                    <label for="text-input-3">Cost of Malware Acquisition and Distribution</label>
+                                    <input id="text-input-3" class="form-control" name="fixed_cost" type="number" value="" placeholder="Input a single numeric value representing the costs of the malware"  data-bind="value: fixedCosts" />               
+                                </div>
+    
+    
+                                <div class="form-group" hidden="hidden">
+                                    <label for="text-input-4">Handling Cost per Person/Business (Coming Soon!)</label>
+                                    <input id="text-input-4" class="form-control" name="handling_cost" type="text" value="" placeholder="Input a single numeric value representing handling costs"  maxlength="500" disabled="disabled"/>               
+                                </div>
+                            </div>                        
+                        </div>
+                        <hr />
+                    </div>
+
+                    <div class="checkbox-container">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label>Select sample ransomware for comparison</label>
+    
+                                <div class="checkbox">
+                                    <label for="check-1">
+                                        <input id="check-1" name="sample_malware" type="checkbox" data-bind="checked: example1" />
+                                        Locky (2017 strain demanding $7500 from random population)
+                                    </label>
+                                </div>
+    
+                                <div class="checkbox">
+                                    <label for="check-2">
+                                        <input id="check-2" name="sample_malware" type="checkbox" data-bind="checked: example2" />                                      
+                                        zCrypt (2016 strain demanding $500 from random population)
+                                    </label>
+                                </div>
+    
+                                <div class="checkbox">
+                                    <label for="check-3">
+                                        <input id="check-3" name="sample_malware" type="checkbox" data-bind="checked: example3" />                                                                 
+                                        WannaCry (2017 strain demanding $600 from businesses)
+                                    </label>
+                                </div>
+    
+                                <div class="checkbox">
+                                    <label for="check-4">
+                                        <input id="check-4" name="sample_malware" type="checkbox" data-bind="checked: example4" />                                      
+                                        PowerWare (2016 strain demanding $500 from businesses)
+                                    </label>
+                                </div>
+    
+                                <div class="checkbox">
+                                    <label for="check-5">
+                                        <input id="check-5" name="sample_malware" type="checkbox" data-bind="checked: example5" />                                                                 
+                                        Hypothetical CryptoWall (Capable of differentiating targets, demands $300 from individuals and $1500 from businesses)
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+    
+                        <!-- <div class="row">
+                            <div class="col-md-12">
+                                <i>Example malware allows comparative analysis of user defined malware</i>
+                                <br />
+                                <i>Each selected example is modeled using default or user defined populations</i>
+                            </div>
+                        </div> -->
+                        <hr />
+                    </div>
+
+
+                    <div class="controls-container">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <button type="button" class="btn btn-primary" id="ajax_btn" data-bind="enable: enableSave, click: submitForm">Submit Data</button>
+                                    <button type="button" class="btn btn-default" id="modal-trigger" data-toggle="modal" data-target="#result-modal">Open Results</button>
+                                    <div class="spinner" data-bind="visible: callInProgress"></div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-xs">
+                            <img class="constrained-img" style="width:30%; height:30%;" src="../static/images/logos/H2020_Logo.png" />
+                        </div>
+						<div class="col-md-xs">
+                            <p>
+                                This project has received funding from the European Union’s Horizon 2020 research and innovation programme under grant agreement No 700326.
+                            </p>   
+						</div>
+                    </div>
+                    					
+					<div class="row">
+						<div class="col-md-xs">
+							<img class="constrained-img" style="width:30%; height:30%;" src="../static/images/logos/RAMSES_Logo.png" />
+						</div>
+						<div class="col-md-xs">
+                           <p> 
+                                The content of this website reflects only the RAMSES groups’ views and the European Commission is not liable for any use that may be made of the information contained herein.
+                            </p>
+                        </div>
+					</div>
+						
+						<div class="row">
+                        <div class="col-md-12">
+                            <h6 class="text-center">
+                                <i class="glyphicon glyphicon-copyright-mark"></i>&nbsp;2018
+                            </h6>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form> 
+    <footer>
+        <!-- Result Modal -->
+        <div class="modal" tabindex="-1" role="dialog" id="result-modal">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title text-center">
+                        Results
+                    </h4>
+                    <h6 class="text-center" id="result-missing" data-bind="visible: !imageVisible">
+                        <!-- (No data set loaded) -->
+                    </h6>
+                </div>
+                <div class="modal-body">
+                    <div id="image-container">
+                        <img id="result-image" style="width:100%; height:100%;" data-bind= "attr: { src: imageSource }, visible: imageVisible"/>                                
+                    </div>
+    
+                    <div id="data-container" class="text-left">
+                        <div data-bind="foreach: resultText">
+                            <p class="builtString" data-bind="text: $data">
+
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+                </div>
+            </div>
+        </div>
+        <!-- /Result Modal -->
+    </footer>
+</body>
+
+<script type="text/javascript" src="../static/js/site.js"></script>
+</html>
+
