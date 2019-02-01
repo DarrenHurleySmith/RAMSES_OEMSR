@@ -5,11 +5,19 @@ Optimal Model of Ransomware Calculation Tool
     2. git clone https://github.com/DarrenHurleySmith/RAMSES_OEMSR.git
 
 As a Python 3 program, the OEMSR requires that you have Python 3.x installed. It also requires the following modules, installed using pip:
+
     • Flask
+
     • Wtforms
+
     • Matplotlib
+
     • Scipy
+
     • Numpy
+
+    • python-tk
+
 These can all be installed using the following instruction from commandline (assuming pip and Python 3 are installed):
 	> py -3 -m pip install flask wtforms matplotlib scipy numpy
 Once installed, you are ready for your first run of the OEMSR. 
