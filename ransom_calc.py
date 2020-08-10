@@ -35,10 +35,12 @@ def ransom_calc(usr_def_ind_WTP,usr_def_biz_WTP,target,price_model,diff_method,
         sample_biz_WTP = usr_def_biz_WTP
     else:
         # use defaults to generate an example population
-        wtp_vals = [1000, 100, 2500, 500, 6000, 1000]
-        wtp_props = [0.3,0.1,0.2,0.1,0.2,0.1]
-        pop_size = 100
-
+        #wtp_vals = [1000, 100, 2500, 500, 6000, 1000]
+        #wtp_props = [0.3,0.1,0.2,0.1,0.2,0.1]
+        #pop_size = 100
+        wtp_vals = [22500,28500,64000]
+        wtp_props = [0.475, 0.475, 0.05]
+        pop_size = 932
         sample_biz_WTP = sample_gen(wtp_vals,pop_size,wtp_props)
 
     # misc vars

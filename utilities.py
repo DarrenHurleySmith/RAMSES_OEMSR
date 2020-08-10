@@ -14,6 +14,7 @@ def output_parser(n,TR,qp,name,r,c,pop,pm,dm,optTR,oqp,opt_r):
     output = []
     score = 0
     optScore = 0
+
     if pm == 'fixed':
         PR = TR-c
         optPR = optTR-c
@@ -82,18 +83,38 @@ def hypothetical_fixed(pop,this_mal,a,lmbd,n,optTR,TR,qp,oqp,opt_r,j,r):
 
     x = []
     axis_len = 0
+
     
-    if max(this_mal.r) > 4000:
-        axis_len = 10000
+    #if max(this_mal.r) > 4000:
+        #axis_len = 10000
+    if max(this_mal.r) < opt_r:
+        axis_len = int(opt_r)+int(opt_r/20)
     else:
-        axis_len = 5000
+        axis_len = max(this_mal.r)+int(max(this_mal.r)/20)
+    #else:
+        #axis_len = 5000
 
     for i in range(50,axis_len,50):
         hyp_mal = mal('hypothetical','all','fixed',[],[],[i],this_mal.c,this_mal.hc)
         hTR,hqp = econ.fixed_model(pop,hyp_mal,a,lmbd,n,0)
         sTR.append(hTR)
-        sqp.append(hqp)
+        if hqp > 1:
+            sqp.append(1) #set upper bound of 100% pop pays
+        elif hqp < 0:
+            sqp.append(0) #set lower bound of 0% of pop pays
+        else:
+            sqp.append(hqp)
         x.append(i)
+
+    if qp > 1:
+        qp = 1 #set upper bound of 100% pop pays
+    elif qp < 0:
+        qp = 0 #set lower bound of 0% of pop pays
+
+    if oqp > 1:
+        oqp = 1 #set upper bound of 100% pop pays
+    elif oqp < 0:
+        oqp = 0 #set lower bound of 0% of pop pays
 
     ec = ['k','b','r','c','m','y']
     l = ['-','--','-.',':']
@@ -119,7 +140,7 @@ def hypothetical_fixed(pop,this_mal,a,lmbd,n,optTR,TR,qp,oqp,opt_r,j,r):
     plt.xlabel('Ransom Value ($)')
     plt.ylabel('Total Revenue')
     plt.title('Total Revenue of Malware')
-    plt.plot(x, sTR, color=c, ls=l[j], label=str(this_mal.n)+' Revenue r='+str(int(r)))
+    plt.plot(x, sTR, color=c, ls=l[j], label=str(this_mal.n))
     plt.plot(r, TR, marker=m[j], markersize=5, color=c)
     plt.plot(opt_r, optTR, marker=m[j], markersize=5, color=c, markerfacecolor = "None")
     plt.grid(True)    
@@ -129,7 +150,7 @@ def hypothetical_fixed(pop,this_mal,a,lmbd,n,optTR,TR,qp,oqp,opt_r,j,r):
     plt.xlabel('Ransom Value ($)')
     plt.ylabel('Proportion')
     plt.title('Proportion of Paying Population')
-    plt.plot(x, sqp, color=c, ls=l[j], label=str(this_mal.n)+' Proportion r='+str(int(r)))
+    plt.plot(x, sqp, color=c, ls=l[j], label=str(this_mal.n))
     plt.plot(r, qp, marker=m[j], markersize=5, color=c)
     plt.plot(opt_r, oqp, marker=m[j], markersize=5, color=c, markerfacecolor = "None")
     plt.grid(True)
